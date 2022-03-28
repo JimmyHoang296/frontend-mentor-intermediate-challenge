@@ -1,0 +1,123 @@
+
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+html{
+    font-family: 'Kumbh Sans', sans-serif;
+
+}
+
+/* header */
+.header{
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.header-logo{
+    height: 21px;
+    display: block;
+}
+
+.header-nav{
+    display: none;
+}
+
+.nav-list{
+
+}
+
+.nav-link{
+
+}
+
+.user{
+
+}
+
+.user-cart{
+
+}
+
+.user-avatar{
+    height: 21px;
+}   
+
+.main{
+
+}
+
+.product-img{
+}
+
+.main-img{
+    width: 100%;
+    
+}
+
+.thumb-list{
+
+}
+
+.thumb-img{
+
+}
+
+.thumb-img{
+
+}
+
+.thumb-img{
+
+}
+
+.thumb-img{
+
+}
+
+.product-infor{
+
+}
+
+.manufacturer{
+
+}
+
+.product-title{
+
+}
+
+.product-descript{
+
+}
+
+.product-price{
+
+}
+
+.sale-price{
+
+}
+
+.off-percentage{
+
+}
+
+.list-price{
+
+}
+
+.add-cart{
+
+}
+
+.form-group{
+
+}
+
+.addCartBtn{
+
+}

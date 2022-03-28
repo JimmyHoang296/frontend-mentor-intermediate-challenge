@@ -1,0 +1,135 @@
+
+:root{
+    --blue: hsl(238, 40%, 52%);
+    --red: hsl(358, 79%, 66%);
+    --light-blue: hsl(239, 57%, 85%);
+    --light-red: hsl(357, 100%, 86%);
+
+    --dark-blue: hsl(212, 24%, 26%);
+    --gray: hsl(211, 10%, 45%);
+    --light-gray: hsl(223, 19%, 93%);
+    --very-light-gray: hsl(228, 33%, 97%);
+    --white: hsl(0, 0%, 100%)
+}
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html{
+    font-family: 'Rubik', sans-serif;
+    font-size: 16px;
+}
+
+.wrapper{
+    min-height: 100vh;
+    background-color: var(--very-light-gray);
+    padding: 40px 20px;
+
+}
+
+.reply-card{
+    padding-left: 15px;
+    border-left: 2px solid var(--light-gray);
+    margin-bottom: 15px;
+}
+
+.comment-card{
+    background-color: var(--white);
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+
+    display: grid;
+    grid-template-columns: auto 1fr;
+}
+
+.user{
+    display: flex;
+    align-items: center;
+    
+    gap: 14px;
+    margin-bottom: 15px;
+
+    grid-column: 1/3;
+}
+
+.user-avatar{
+    width: 32px;
+    height: 32px;
+}
+
+.user-avatar img{
+    width: 100%;
+}
+
+.user-name{
+    font-size: 16px;
+    color: var(--gray);
+    font-weight: 500;
+}
+
+.comment-time{
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--gray);
+}
+
+.comment{
+    color: var(--gray);
+    line-height: 1.4;
+    margin-bottom: 15px;
+
+    grid-column: 1/3;
+}
+
+.vote{
+    display: inline-flex;
+    background-color: var(--very-light-gray);
+    width: auto;
+    border-radius: 10px;
+    align-items: center;
+}
+
+.vote label{
+    display: block;
+    border: none;
+    height: 40px;
+    width: 40px;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: ease-in-out;
+}
+
+.vote label:hover{
+    opacity: 0.8;
+}
+
+.vote input{
+    display: none;
+}
+
+.vote-number{
+    color: var(--blue);
+    font-weight: 500;
+}
+
+.reply{
+    border: none;
+    background-color: transparent;
+
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+
+    color: var(--blue);
+    font-weight: 500;
+
+    justify-self: flex-end;
+    align-self: center;
+}
