@@ -65,6 +65,15 @@ html{
     width: 100%;
 }
 
+.user-current{
+    font-size: 11px;
+    color: var(--white);
+    background-color: var(--blue);
+    padding: 2px 7px;
+    border-radius: 2px;
+    margin-left: -4px;
+}
+
 .user-name{
     font-size: 16px;
     color: var(--gray);
@@ -119,17 +128,31 @@ html{
     font-weight: 500;
 }
 
-.reply{
+.action-button{
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+.action-button button{
     border: none;
     background-color: transparent;
-
-    display: inline-flex;
+    
     gap: 10px;
+    display: inline-flex;
     align-items: center;
-
-    color: var(--blue);
-    font-weight: 500;
-
+    
     justify-self: flex-end;
     align-self: center;
+    color: var(--blue);
+    font-weight: 500;
+    
+}
+
+.delete h3{
+    color: var(--red)
+}
+
+.replyTo{
+    color: var(--blue);
+    font-weight: 700;
 }
