@@ -30,7 +30,7 @@ function addComment (wrapper,comment,currentUser){
     
     wrapper.innerHTML = wrapper.innerHTML + 
     `
-    <div class="comment-card">
+    <div class="card card-display">
         <div class="user">
             <div class="user-avatar">
             <img src=${comment.user.image.png} alt="">

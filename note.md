@@ -1,7 +1,10 @@
 - create front-end:
-    - comment card
-    - comment input
     - reply input
+
+-function
+    - upvote and downvote
+    - reply (where to put new comment)
+    - add comment and send
 
 - create back-end:
     - fetch data file

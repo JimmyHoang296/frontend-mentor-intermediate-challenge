@@ -4,7 +4,7 @@
     --red: hsl(358, 79%, 66%);
     --light-blue: hsl(239, 57%, 85%);
     --light-red: hsl(357, 100%, 86%);
-
+    
     --dark-blue: hsl(212, 24%, 26%);
     --gray: hsl(211, 10%, 45%);
     --light-gray: hsl(223, 19%, 93%);
@@ -30,30 +30,29 @@ html{
 
 }
 
-.reply-card{
-    padding-left: 15px;
-    border-left: 2px solid var(--light-gray);
-    margin-bottom: 15px;
+button{
+    border: none;
 }
 
-.comment-card{
+/* basic card */
+
+.card{
     background-color: var(--white);
     border-radius: 5px;
     padding: 15px;
     margin-bottom: 15px;
-
-    display: grid;
-    grid-template-columns: auto 1fr;
 }
 
+/* user infor part */
 .user{
     display: flex;
     align-items: center;
-    
+
     gap: 14px;
     margin-bottom: 15px;
 
     grid-column: 1/3;
+    align-self: center;
 }
 
 .user-avatar{
@@ -86,6 +85,7 @@ html{
     color: var(--gray);
 }
 
+/* comment part */
 .comment{
     color: var(--gray);
     line-height: 1.4;
@@ -94,6 +94,7 @@ html{
     grid-column: 1/3;
 }
 
+/* vote part */
 .vote{
     display: inline-flex;
     background-color: var(--very-light-gray);
@@ -111,7 +112,7 @@ html{
     display: flex;
     align-items: center;
     justify-content: center;
-
+    
     transition: ease-in-out;
 }
 
@@ -128,13 +129,13 @@ html{
     font-weight: 500;
 }
 
+/* action button */
 .action-button{
     display: flex;
     gap: 10px;
     justify-content: flex-end;
 }
 .action-button button{
-    border: none;
     background-color: transparent;
     
     gap: 10px;
@@ -156,3 +157,112 @@ html{
     color: var(--blue);
     font-weight: 700;
 }
+/* submit part */
+.submit-button{
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.submit-button button{
+    border-radius: 7px;
+    padding: 15px 25px;
+    background-color: var(--blue);
+    color: var(--light-gray);
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.submit-update,
+.submit-reply,
+.submit-send{
+    display: none;
+}
+
+/* state */
+/* display state */
+.card-display{
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+}
+    /* hide button in normal display state */
+    .card-display .delete,
+    .card-display .edit,
+    .card-display .submit-button,
+    .card-display .user-current{
+        display: none;
+    }
+    
+/* display state current user */
+/* hide button in current display state */
+.is-current-user .delete,
+.is-current-user .edit,
+.is-current-user .user-current{
+    display: inline-flex;
+}
+
+.is-current-user .reply{
+    display: none;
+}
+
+/* comment state */
+
+.card-comment{
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+}
+
+.card-comment .comment{
+    grid-column: 1/3;
+    grid-row: 1/2;
+    
+    display: block;
+    min-height: 95px;
+    padding: 13px 20px;
+    margin-bottom: 22px;
+    border: 1px solid var(--light-gray);
+    border-radius: 5px;
+    color: var(--gray);
+    font-weight: 400;
+}
+
+.card-comment .user-name,
+.card-comment .user-current,
+.card-comment .comment-time,
+.card-comment .vote,
+.card-comment .action-button{
+    display: none;
+}
+
+.card-comment .user{
+    grid-column: 1/2;
+    margin-bottom: 0;
+}
+
+.card-comment .submit-send{
+    display: unset;
+}
+.comment-input:empty:not(:focus)::before {
+    content: attr(data-placeholder)
+}
+
+.comment-input{
+
+}
+.card-input{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    height: 100%;
+}
+
+
+    .reply-card{
+        padding-left: 15px;
+        border-left: 2px solid var(--light-gray);
+        margin-bottom: 15px;
+    }
+    
+    
