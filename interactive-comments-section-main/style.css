@@ -87,13 +87,26 @@ button{
 
 /* comment part */
 .comment{
+    display: inline-block;
     color: var(--gray);
     line-height: 1.4;
     margin-bottom: 15px;
-
+    
+    
     grid-column: 1/3;
 }
+.replyTo{
+    color: var(--blue);
+    font-weight: 700;
+    padding-left: 5px;
+}
 
+#comment-input{
+    outline: none;
+    color: var(--gray);
+    border: none;
+    width: auto;
+}
 /* vote part */
 .vote{
     display: inline-flex;
@@ -149,14 +162,16 @@ button{
     
 }
 
+.action-button button:hover{
+    cursor: pointer;
+    opacity: 0.8;
+}
+
 .delete h3{
     color: var(--red)
 }
 
-.replyTo{
-    color: var(--blue);
-    font-weight: 700;
-}
+
 /* submit part */
 .submit-button{
     display: flex;
@@ -187,9 +202,9 @@ button{
     align-items: center;
 }
     /* hide button in normal display state */
-    .card-display .delete,
-    .card-display .edit,
-    .card-display .submit-button,
+    /* .card-display .delete, */
+    /* .card-display .edit, */
+    /* .card-display .submit-button, */
     .card-display .user-current{
         display: none;
     }
@@ -205,6 +220,7 @@ button{
 .is-current-user .reply{
     display: none;
 }
+
 
 /* comment state */
 
@@ -241,28 +257,34 @@ button{
     margin-bottom: 0;
 }
 
-.card-comment .submit-send{
+
+/* reply state */
+
+.card-comment_send .submit-send{
     display: unset;
 }
-.comment-input:empty:not(:focus)::before {
-    content: attr(data-placeholder)
+.card-comment_reply .submit-reply{
+    display: unset;
 }
-
-.comment-input{
-
-}
-.card-input{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    height: 100%;
+.card-comment_update .submit-update{
+    display: unset;
 }
 
 
-    .reply-card{
-        padding-left: 15px;
-        border-left: 2px solid var(--light-gray);
-        margin-bottom: 15px;
-    }
+[contentEditable=true]:empty:not(:focus)::before {
+    content: attr(data-placeholder);
+}
+
+[contentEditable=true]:focus{
+    /* background-color: red; */
+    border: 1px solid var(--blue);
+    outline: none;
+    text-align: start;
+}
+.reply-card{
+    padding-left: 15px;
+    border-left: 2px solid var(--light-gray);
+    margin-bottom: 15px;
+}
     
     

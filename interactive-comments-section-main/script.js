@@ -1,80 +1,246 @@
 
+fetch("./data.json")
+.then(response => {
+    return response.json()
+})
+.then(jsondata => {
+    var currentUser = jsondata.currentUser
+    renderUI(jsondata)
+
+    addReplyBtnFunction(currentUser) 
+
+    
+
+    console.log(jsondata)
+})
+
+function editableSetFocus(){
+    let editableEles = document.querySelectorAll('[contentEditable="true"]')
+    editableEles = [...editableEles]
+    console.log(editableEles)
+    editableEles.forEach(ele => {
+        ele.addEventListener('focus', () =>{
+            setEndOfContenteditable(ele)
+            console.log(ele)
+        })
+    })
+}
+
+
 function renderUI (data) {
     let wrapper = document.querySelector('.wrapper')
     let comments = data.comments
     let currentUser = data.currentUser
 
-    console.log ('username is' + currentUser.username)
-    console.log(comments)
+
     comments.forEach(comment => {
         addComment(wrapper,comment,currentUser)
         let replies = comment.replies
         
-        console.log (comment.id)
         if (replies.length) {
             let replyNode = document.createElement('div')
             replyNode.className = 'reply-card'
             replies.forEach(reply => {
                 addComment(replyNode,reply,currentUser)
             })
-            console.log(replyNode)
             wrapper.appendChild(replyNode)
         }
-   
+    });
+    addInputComment (wrapper, currentUser)
+}
+
+function addReplyBtnFunction (currentUser){
+    
+    var repliesBtn = document.querySelectorAll('.reply')
+    repliesBtn = [...repliesBtn]
+    
+    repliesBtn.forEach(reply => {
+        reply.addEventListener('click', () =>{
+            var wrapper = findAncestor(reply,'card')
+            addReplyInput (wrapper, currentUser)
+
+        })
     });
 }
 
-function addComment (wrapper,comment,currentUser){
+function addComment (wrapper, comment, currentUser){
     let isCurrentUserHide = `style="display:${currentUser.username==comment.user.username?"none":""}"`
     let isCurrentUserShow = `style="display:${currentUser.username==comment.user.username?"":"none"}"`
     
     wrapper.innerHTML = wrapper.innerHTML + 
     `
     <div class="card card-display">
-        <div class="user">
-            <div class="user-avatar">
-            <img src=${comment.user.image.png} alt="">
-            </div>
-            <h3 class="user-name">${comment.user.username}</h3>
-            <span class="user-current" ${isCurrentUserShow} >you</span>
-            <h3 class="comment-time">${comment.createdAt}</h3>
-        </div>
-        <p class="comment">
-            <span class="replyTo" style="display:${comment.replyingTo?'unset':'none'}">@${comment.replyingTo}</span>
-            ${comment.content}      
-        </p>
-        <div class="vote">
-            <input type="radio" name="vote" id="plus">
-            <label for="plus"><img src="./images/icon-plus.svg" alt="plus"></label>
-            <h3 class="vote-number">${comment.score}</h3>
-            <input type="radio" name="vote" id="minus">
-            <label for="minus"><img src="./images/icon-minus.svg" alt="minus"></label>
-        </div>
-
-        <div class="action-button">
-          
-          <button class="delete" ${isCurrentUserShow}>
-            <img src="./images/icon-delete.svg" alt="delete">
-            <h3>Delete</h3>
-          </button>
-          <button class="edit" ${isCurrentUserShow}>
-            <img src="./images/icon-edit.svg" alt="edit">
-            <h3>Edit</h3>
-          </button>
-          <button class="reply" ${isCurrentUserHide}>
-            <img src="./images/icon-reply.svg" alt="reply">
-            <h3>Reply</h3>
-          </button>
-        </div>
+    <div class="user">
+      <div class="user-avatar">
+        <img src=${comment.user.image.png} alt="">
+      </div>
+      <h3 class="user-name">${comment.user.username}</h3>
+      <span class="user-current" ${isCurrentUserShow} >you</span>
+      <h3 class="comment-time">${comment.createdAt}</h3>
     </div>
+    <p class="comment" contenteditable="false">
+      <span class="replyTo" style="display:${comment.replyingTo?'unset':'none'}">@${comment.replyingTo}</span>
+      ${comment.content}         
+    </p>
+    <div class="vote">
+      <input type="radio" name="vote" id="plus">
+      <label for="plus"><img src="./images/icon-plus.svg" alt="plus"></label>
+      <h3 class="vote-number">${comment.score}</h3>
+      <input type="radio" name="vote" id="minus">
+      <label for="minus"><img src="./images/icon-minus.svg" alt="minus"></label>
+    </div>
+    <div class="action-button">
+      
+      <button class="delete" ${isCurrentUserShow}>
+        <img src="./images/icon-delete.svg" alt="delete">
+        <h3>Delete</h3>
+      </button>
+      <button class="edit" ${isCurrentUserShow}>
+        <img src="./images/icon-edit.svg" alt="edit">
+        <h3>Edit</h3>
+      </button>
+      <button class="reply" ${isCurrentUserHide}>
+        <img src="./images/icon-reply.svg" alt="reply">
+        <h3>Reply</h3>
+      </button>
+    </div>
+    <div class="submit-button">
+      <button class="submit-send">SEND</button>
+      <button class="submit-reply">REPLY</button>
+      <button class="submit-update">UPDATE</button>
+    </div>
+  </div>
     `
 }
 
-fetch("./data.json")
-.then(response => {
-    return response.json()
-})
-.then(jsondata => {
-    renderUI(jsondata)
-    console.log(jsondata)
-})
+function addInputComment (wrapper, currentUser){
+
+
+      
+    wrapper.innerHTML = wrapper.innerHTML + 
+    `
+    <div class="card card-comment card-comment_send">
+    <div class="user">
+      <div class="user-avatar">
+        <img src=${currentUser.image.png} alt="">
+      </div>
+      <h3 class="user-name">${currentUser.username}</h3>
+      <span class="user-current" style="display:none" >you</span>
+      <h3 class="comment-time">just now</h3>
+    </div>
+    <p class="comment" contentEditable="true" data-placeholder="Enter text here"></p>
+        
+    
+    <div class="vote">
+      <input type="radio" name="vote" id="plus">
+      <label for="plus"><img src="./images/icon-plus.svg" alt="plus"></label>
+      <h3 class="vote-number">0</h3>
+      <input type="radio" name="vote" id="minus">
+      <label for="minus"><img src="./images/icon-minus.svg" alt="minus"></label>
+    </div>
+    <div class="action-button">
+      
+      <button class="delete" style="display:unset">
+        <img src="./images/icon-delete.svg" alt="delete">
+        <h3>Delete</h3>
+      </button>
+      <button class="edit" style="display:unset">
+        <img src="./images/icon-edit.svg" alt="edit">
+        <h3>Edit</h3>
+      </button>
+      <button class="reply" style="display:none">
+        <img src="./images/icon-reply.svg" alt="reply">
+        <h3>Reply</h3>
+      </button>
+    </div>
+    <div class="submit-button">
+      <button class="submit-send">SEND</button>
+      <button class="submit-reply">REPLY</button>
+      <button class="submit-update">UPDATE</button>
+    </div>
+  </div>
+    `
+}
+
+function addReplyInput (wrapper, currentUser){
+    // create reply card
+    const reply = document.createElement('div')
+    const replyTo = wrapper.querySelector('.user-name').innerText
+    reply.className = 'card card-comment card-comment_reply'
+    reply.innerHTML = 
+    `
+    <div class="user">
+      <div class="user-avatar">
+        <img src=${currentUser.image.png} alt="">
+      </div>
+      <h3 class="user-name">${currentUser.username}</h3>
+      <span class="user-current" style="display:none" >you</span>
+      <h3 class="comment-time">just now</h3>
+    </div>
+    <p class="comment" contentEditable="true" data-placeholder="Enter text here">
+    <span class="replyTo" style="display:unset">@${replyTo }, </span> \u200B
+    </p>
+        
+    
+    <div class="vote">
+      <input type="radio" name="vote" id="plus">
+      <label for="plus"><img src="./images/icon-plus.svg" alt="plus"></label>
+      <h3 class="vote-number">0</h3>
+      <input type="radio" name="vote" id="minus">
+      <label for="minus"><img src="./images/icon-minus.svg" alt="minus"></label>
+    </div>
+    <div class="action-button">
+      
+      <button class="delete" style="display:unset">
+        <img src="./images/icon-delete.svg" alt="delete">
+        <h3>Delete</h3>
+      </button>
+      <button class="edit" style="display:unset">
+        <img src="./images/icon-edit.svg" alt="edit">
+        <h3>Edit</h3>
+      </button>
+      <button class="reply" style="display:none">
+        <img src="./images/icon-reply.svg" alt="reply">
+        <h3>Reply</h3>
+      </button>
+    </div>
+    <div class="submit-button">
+      <button class="submit-send">SEND</button>
+      <button class="submit-reply">REPLY</button>
+      <button class="submit-update">UPDATE</button>
+    </div>
+    `
+    wrapper.parentNode.insertBefore(reply,wrapper.nextSibling)
+    const commentInput = reply.querySelector('.comment')
+    commentInput.focus()
+    setEndOfContenteditable(commentInput)
+    editableSetFocus()
+
+}
+function findAncestor (element, classname){
+    while (!element.parentNode.classList.contains(classname)){
+        element = element.parentNode
+    }
+    return element.parentNode
+}
+
+function setEndOfContenteditable(contentEditableElement)
+{
+    var range,selection;
+    if(document.createRange)//Firefox, Chrome, Opera, Safari, IE 9+
+    {
+        range = document.createRange();//Create a range (a range is a like the selection but invisible)
+        range.selectNodeContents(contentEditableElement);//Select the entire contents of the element with the range
+        range.collapse(false);//collapse the range to the end point. false means collapse to end rather than the start
+        selection = window.getSelection();//get the selection object (allows you to change selection)
+        selection.removeAllRanges();//remove any selections already made
+        selection.addRange(range);//make the range you have just created the visible selection
+    }
+    else if(document.selection)//IE 8 and lower
+    { 
+        range = document.body.createTextRange();//Create a range (a range is a like the selection but invisible)
+        range.moveToElementText(contentEditableElement);//Select the entire contents of the element with the range
+        range.collapse(false);//collapse the range to the end point. false means collapse to end rather than the start
+        range.select();//Select the range (make it the visible selection
+    }
+}
