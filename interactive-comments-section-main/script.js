@@ -1,23 +1,30 @@
 
+var currentUser
 fetch("./data.json")
 .then(response => {
     return response.json()
 })
 .then(jsondata => {
-    var currentUser = jsondata.currentUser
+    currentUser = jsondata.currentUser
     renderUI(jsondata)
 
-    addReplyBtnFunction(currentUser) 
-
-    
+    refreshUI(currentUser)
 
     console.log(jsondata)
 })
 
+function refreshUI (currentUser) {
+    addReplyBtnFunction(currentUser) 
+
+    addDeleteBtnFunction()
+
+    addEditBtnFunction()
+
+    addSubmitSendFunction(currentUser)
+}
 function editableSetFocus(){
     let editableEles = document.querySelectorAll('[contentEditable="true"]')
     editableEles = [...editableEles]
-    console.log(editableEles)
     editableEles.forEach(ele => {
         ele.addEventListener('focus', () =>{
             setEndOfContenteditable(ele)
@@ -57,10 +64,62 @@ function addReplyBtnFunction (currentUser){
     repliesBtn.forEach(reply => {
         reply.addEventListener('click', () =>{
             var wrapper = findAncestor(reply,'card')
-            addReplyInput (wrapper, currentUser)
-
+            if(!wrapper.nextElementSibling.classList.contains('card-comment_reply')){
+                addReplyInput (wrapper, currentUser)
+            }
+            
         })
     });
+}
+
+function addDeleteBtnFunction(){
+    var deleteBtns = document.querySelectorAll('.delete')
+    deleteBtns = [...deleteBtns]
+    deleteBtns.forEach(deleteBtn => {
+        deleteBtn.addEventListener('click', () =>{
+            findAncestor(deleteBtn,'card').remove()
+        })
+    })
+}
+
+function addEditBtnFunction(){
+    var editBtns = document.querySelectorAll('.edit')
+    editBtns = [...editBtns]
+    editBtns.forEach(editBtn => {
+        editBtn.addEventListener('click', () =>{
+            const card = findAncestor(editBtn,'card')
+            card.classList.remove('card-display')
+            card.classList.add('card-comment')
+            card.classList.add('card-comment_update')
+            const commentInput = card.querySelector('.comment')
+            commentInput.contentEditable = true
+            commentInput.focus()
+            setEndOfContenteditable(commentInput)
+
+
+        })
+    })
+}
+
+function addSubmitSendFunction(currentUser){
+    var submitSendBtns = document.querySelectorAll('.submit-send')
+    submitSendBtns = [...submitSendBtns]
+    console.log (submitSendBtns)
+    submitSendBtns.forEach(submitSendBtn => {
+        submitSendBtn.addEventListener('click', ()=>{
+            console.log ('send this message')
+            const card = findAncestor(submitSendBtn, 'card')
+            const comment = card.querySelector('.comment')
+            console.log (comment.innerText.length)
+            if (!comment.innerText.length == 0){
+                card.className = "card card-display"
+                comment.contentEditable = false
+                let wrapper = document.querySelector('.wrapper')
+                addInputComment (wrapper, currentUser)
+                refreshUI()
+            }
+        })
+    })
 }
 
 function addComment (wrapper, comment, currentUser){
@@ -140,11 +199,11 @@ function addInputComment (wrapper, currentUser){
     </div>
     <div class="action-button">
       
-      <button class="delete" style="display:unset">
+      <button class="delete" >
         <img src="./images/icon-delete.svg" alt="delete">
         <h3>Delete</h3>
       </button>
-      <button class="edit" style="display:unset">
+      <button class="edit" >
         <img src="./images/icon-edit.svg" alt="edit">
         <h3>Edit</h3>
       </button>
@@ -191,11 +250,11 @@ function addReplyInput (wrapper, currentUser){
     </div>
     <div class="action-button">
       
-      <button class="delete" style="display:unset">
+      <button class="delete" >
         <img src="./images/icon-delete.svg" alt="delete">
         <h3>Delete</h3>
       </button>
-      <button class="edit" style="display:unset">
+      <button class="edit" >
         <img src="./images/icon-edit.svg" alt="edit">
         <h3>Edit</h3>
       </button>
