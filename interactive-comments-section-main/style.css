@@ -27,7 +27,9 @@ html{
     min-height: 100vh;
     background-color: var(--very-light-gray);
     padding: 40px 20px;
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 button{
@@ -41,8 +43,18 @@ button{
     border-radius: 5px;
     padding: 15px;
     margin-bottom: 15px;
+    width: 100%;
 }
 
+@media only screen and (min-width:450px){
+    .card{
+        display: grid;
+        grid-template-columns: auto 1fr 1fr;
+        grid-template-rows: auto 1fr;
+        max-width: 612px;
+        padding: 20px 15px;
+    }
+}
 /* user infor part */
 .user{
     display: flex;
@@ -85,6 +97,13 @@ button{
     color: var(--gray);
 }
 
+@media only screen and (min-width:450px){
+    .user{
+        grid-column: 2/3;
+        grid-row: 1/2;
+        margin-bottom: 0;
+    }
+}
 /* comment part */
 .comment{
     display: inline-block;
@@ -102,7 +121,14 @@ button{
     padding-left: 5px;
 }
 
-
+@media only screen and (min-width:450px){
+    .comment{
+        grid-column: 2/4;
+        grid-row: 2/3;
+        margin-bottom: 0;
+        margin-top: 25px;
+    }
+}
 /* vote part */
 .vote{
     display: inline-flex;
@@ -112,7 +138,7 @@ button{
     align-items: center;
 }
 
-.vote label{
+.vote button{
     display: block;
     border: none;
     height: 40px;
@@ -129,15 +155,21 @@ button{
     opacity: 0.8;
 }
 
-.vote input{
-    display: none;
-}
-
 .vote-number{
     color: var(--blue);
     font-weight: 500;
 }
 
+@media only screen and (min-width:450px){
+    .vote{
+        grid-column: 1/2;
+        grid-row: 1/3;
+        flex-direction: column;
+        margin-right: 15px;
+        align-self: flex-start;
+    }
+
+}
 /* action button */
 .action-button{
     display: flex;
@@ -217,7 +249,12 @@ button:hover{
     display: none;
 }
 
-
+@media only screen and (min-width:450px){
+    .card-display{
+        grid-template-columns: auto 1fr auto;
+    }
+   
+}
 /* comment state */
 
 .card-comment{
@@ -254,6 +291,23 @@ button:hover{
 }
 
 
+@media only screen and (min-width:450px){
+    .card-comment{
+        grid-template-columns: auto 1fr auto;
+    }
+    .card-comment{
+        grid-column-gap: 15px;
+    }
+    .card-comment .comment{
+        grid-column: 2/3;
+        margin: 0;
+    }
+    
+    .card-comment .submit-button{
+        grid-column: 3/4;
+    }
+    
+}
 /* reply state */
 
 .card-comment_send .submit-send{
@@ -285,5 +339,62 @@ button:hover{
     border-left: 2px solid var(--light-gray);
     margin-bottom: 15px;
 }
+@media only screen and (min-width:450px){
+    .reply-card{
+        max-width: 612px;
+    }
     
+} 
     
+/* modal */
+
+.modal-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.4);
+    top: 0;
+    left: 0;
+}
+
+.modal-delete-confirm{
+    background-color: #fff;
+    max-width: 345px;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.modal-header{
+    color: var(--dark-blue);  
+    margin-bottom: 20px;
+}
+
+.modal-text{
+    color: var(--gray);
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.modal-btns{
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal-btns button{
+    padding: 15px 20px;
+    border-radius: 7px;
+    color: var(--white);
+    font-weight: 700;
+    font-size: 15px;
+}
+.modal-btns .confirm-cancel{
+    background-color: var(--gray);
+}
+
+.modal-btns .confirm-delete{
+    background-color: var(--red);
+}
+

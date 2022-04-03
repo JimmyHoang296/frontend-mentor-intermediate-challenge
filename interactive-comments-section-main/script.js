@@ -8,20 +8,29 @@ fetch("./data.json")
     currentUser = jsondata.currentUser
     renderUI(jsondata)
 
-    refreshUI(currentUser)
+    refreshUI()
 
     console.log(jsondata)
 })
 
-function refreshUI (currentUser) {
-    addReplyBtnFunction(currentUser) 
+function refreshUI () {
+    addReplyBtnFunction() 
 
     addDeleteBtnFunction()
 
     addEditBtnFunction()
 
-    addSubmitSendFunction(currentUser)
+    addSubmitSendFunction()
+
+    addSubmitReplyFunction()
+
+    addSubmitUpdateFunction()
+
+    addVoteFunction()
 }
+
+
+
 function editableSetFocus(){
     let editableEles = document.querySelectorAll('[contentEditable="true"]')
     editableEles = [...editableEles]
@@ -32,7 +41,6 @@ function editableSetFocus(){
         })
     })
 }
-
 
 function renderUI (data) {
     let wrapper = document.querySelector('.wrapper')
@@ -56,7 +64,7 @@ function renderUI (data) {
     addInputComment (wrapper, currentUser)
 }
 
-function addReplyBtnFunction (currentUser){
+function addReplyBtnFunction (){
     
     var repliesBtn = document.querySelectorAll('.reply')
     repliesBtn = [...repliesBtn]
@@ -67,7 +75,7 @@ function addReplyBtnFunction (currentUser){
             if(!wrapper.nextElementSibling.classList.contains('card-comment_reply')){
                 addReplyInput (wrapper, currentUser)
             }
-            
+            refreshUI()
         })
     });
 }
@@ -77,7 +85,9 @@ function addDeleteBtnFunction(){
     deleteBtns = [...deleteBtns]
     deleteBtns.forEach(deleteBtn => {
         deleteBtn.addEventListener('click', () =>{
-            findAncestor(deleteBtn,'card').remove()
+            // findAncestor(deleteBtn,'card').remove()
+            renderDeleteModal(deleteBtn)
+            
         })
     })
 }
@@ -91,6 +101,7 @@ function addEditBtnFunction(){
             card.classList.remove('card-display')
             card.classList.add('card-comment')
             card.classList.add('card-comment_update')
+            card.querySelector('.user-current').style.display = "none"
             const commentInput = card.querySelector('.comment')
             commentInput.contentEditable = true
             commentInput.focus()
@@ -101,30 +112,59 @@ function addEditBtnFunction(){
     })
 }
 
-function addSubmitSendFunction(currentUser){
+function addSubmitSendFunction(){
     var submitSendBtns = document.querySelectorAll('.submit-send')
     submitSendBtns = [...submitSendBtns]
-    console.log (submitSendBtns)
     submitSendBtns.forEach(submitSendBtn => {
         submitSendBtn.addEventListener('click', ()=>{
-            console.log ('send this message')
             const card = findAncestor(submitSendBtn, 'card')
             const comment = card.querySelector('.comment')
-            console.log (comment.innerText.length)
             if (!comment.innerText.length == 0){
                 card.className = "card card-display"
                 comment.contentEditable = false
                 let wrapper = document.querySelector('.wrapper')
+                card.querySelector('.user-current').style.display = "inline-flex"
                 addInputComment (wrapper, currentUser)
-                refreshUI()
+
+                refreshUI () 
             }
         })
     })
 }
 
+function addSubmitReplyFunction(){
+    var submitReplyBtns = document.querySelectorAll('.submit-reply')
+    submitReplyBtns = [...submitReplyBtns]
+    submitReplyBtns.forEach(submitReplyBtn => {
+        submitReplyBtn.addEventListener('click', ()=>{
+            const card = findAncestor(submitReplyBtn, 'card')
+            const comment = card.querySelector('.comment')
+            card.className = 'card card-display'
+            comment.contentEditable = false
+            card.querySelector('.user-current').style.display = "inline-flex"
+            refreshUI()
+        })
+    })
+}
+
+function addSubmitUpdateFunction(){
+    var submitUpdateBtns = document.querySelectorAll('.submit-update')
+    submitUpdateBtns = [...submitUpdateBtns]
+    submitUpdateBtns.forEach(submitUpdateBtn => {
+        submitUpdateBtn.addEventListener('click', ()=>{
+            const card = findAncestor(submitUpdateBtn, 'card')
+            const comment = card.querySelector('.comment')
+            card.className = 'card card-display'
+            comment.contentEditable = false
+            card.querySelector('.user-current').style.display = "inline-flex"
+            refreshUI()
+        })
+    })
+}
+
 function addComment (wrapper, comment, currentUser){
-    let isCurrentUserHide = `style="display:${currentUser.username==comment.user.username?"none":""}"`
-    let isCurrentUserShow = `style="display:${currentUser.username==comment.user.username?"":"none"}"`
+    let isCurrentUserHide = `style="display:${currentUser.username==comment.user.username?"none":"inline-flex"}"`
+    let isCurrentUserShow = `style="display:${currentUser.username==comment.user.username?"inline-flex":"none"}"`
     
     wrapper.innerHTML = wrapper.innerHTML + 
     `
@@ -142,11 +182,11 @@ function addComment (wrapper, comment, currentUser){
       ${comment.content}         
     </p>
     <div class="vote">
-      <input type="radio" name="vote" id="plus">
-      <label for="plus"><img src="./images/icon-plus.svg" alt="plus"></label>
+      
+      <button class = "plus"><img src="./images/icon-plus.svg" alt="plus"></button>
       <h3 class="vote-number">${comment.score}</h3>
-      <input type="radio" name="vote" id="minus">
-      <label for="minus"><img src="./images/icon-minus.svg" alt="minus"></label>
+      
+      <button class = "minus"><img src="./images/icon-minus.svg" alt="plus"></button>
     </div>
     <div class="action-button">
       
@@ -184,18 +224,18 @@ function addInputComment (wrapper, currentUser){
         <img src=${currentUser.image.png} alt="">
       </div>
       <h3 class="user-name">${currentUser.username}</h3>
-      <span class="user-current" style="display:none" >you</span>
+      <span class="user-current" >you</span>
       <h3 class="comment-time">just now</h3>
     </div>
     <p class="comment" contentEditable="true" data-placeholder="Enter text here"></p>
         
     
     <div class="vote">
-      <input type="radio" name="vote" id="plus">
-      <label for="plus"><img src="./images/icon-plus.svg" alt="plus"></label>
+      
+      <button class = "plus"><img src="./images/icon-plus.svg" alt="plus"></button>
       <h3 class="vote-number">0</h3>
-      <input type="radio" name="vote" id="minus">
-      <label for="minus"><img src="./images/icon-minus.svg" alt="minus"></label>
+      
+      <button class = "minus"><img src="./images/icon-minus.svg" alt="plus"></button>
     </div>
     <div class="action-button">
       
@@ -242,11 +282,11 @@ function addReplyInput (wrapper, currentUser){
         
     
     <div class="vote">
-      <input type="radio" name="vote" id="plus">
-      <label for="plus"><img src="./images/icon-plus.svg" alt="plus"></label>
+      
+      <button class = "plus"><img src="./images/icon-plus.svg" alt="plus"></button>
       <h3 class="vote-number">0</h3>
-      <input type="radio" name="vote" id="minus">
-      <label for="minus"><img src="./images/icon-minus.svg" alt="minus"></label>
+      
+      <button class = "minus"><img src="./images/icon-minus.svg" alt="plus"></button>
     </div>
     <div class="action-button">
       
@@ -276,6 +316,7 @@ function addReplyInput (wrapper, currentUser){
     editableSetFocus()
 
 }
+
 function findAncestor (element, classname){
     while (!element.parentNode.classList.contains(classname)){
         element = element.parentNode
@@ -302,4 +343,60 @@ function setEndOfContenteditable(contentEditableElement)
         range.collapse(false);//collapse the range to the end point. false means collapse to end rather than the start
         range.select();//Select the range (make it the visible selection
     }
+}
+
+function addVoteFunction(){
+    var voteBtns = document.querySelectorAll('.vote button')
+    voteBtns = [...voteBtns]
+    voteBtns.forEach(voteBtn => {
+        voteBtn.removeEventListener('click', voteClick)
+        voteBtn.addEventListener('click', voteClick)
+    })
+}
+
+function voteClick(voteBtn){
+    
+        const card = findAncestor(voteBtn, 'card')
+        const user = card.querySelector('.user-name').innerText
+        if (user !== currentUser.username){
+            const score = voteBtn.parentElement.querySelector('.vote-number')
+            console.log (score)
+            if (voteBtn.className == 'plus'){
+                score.innerText = score.innerText*1 + 1
+            }else{
+                score.innerText = score.innerText == 0?score.innerText:score.innerText*1 - 1
+            }
+        }
+    
+}
+
+function renderDeleteModal (element){
+    const modalEle = document.createElement('div')
+    modalEle.className = 'modal-wrapper'
+    modalEle.innerHTML = 
+        `<div class="modal-delete-confirm">
+            <h3 class="modal-header">Delete comment</h3>
+            <p class="modal-text">Are you sure you want to delete this comment? This will remove the comment and can't be undone</p>
+            <div class="modal-btns">
+            <button class="confirm-cancel">NO, CANCEL</button>
+            <button class="confirm-delete">YES, DELETE</button>
+            </div>
+        </div>
+        `
+    element.parentNode.insertBefore(modalEle,element.nextSibling)
+    addModalBtnFunction()
+}
+
+function addModalBtnFunction (){
+    const modal = document.querySelector('.modal-wrapper')
+    const card = findAncestor(modal, 'card')
+    const modalCancelBtn = document.querySelector('.confirm-cancel')
+    const modalDelteBtn = document.querySelector('.confirm-delete')
+    modalCancelBtn.addEventListener('click', () =>{
+        modal.remove()
+    })
+    modalDelteBtn.addEventListener('click', ()=>{
+        card.remove()
+    })
+    
 }
