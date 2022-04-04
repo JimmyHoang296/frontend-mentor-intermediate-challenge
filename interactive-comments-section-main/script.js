@@ -9,7 +9,7 @@ fetch("./data.json")
     renderUI(jsondata)
 
     refreshUI()
-
+    addVoteFunction(document)
     console.log(jsondata)
 })
 
@@ -26,7 +26,7 @@ function refreshUI () {
 
     addSubmitUpdateFunction()
 
-    addVoteFunction()
+    
 }
 
 
@@ -314,7 +314,7 @@ function addReplyInput (wrapper, currentUser){
     commentInput.focus()
     setEndOfContenteditable(commentInput)
     editableSetFocus()
-
+    addVoteFunction(reply)
 }
 
 function findAncestor (element, classname){
@@ -345,29 +345,24 @@ function setEndOfContenteditable(contentEditableElement)
     }
 }
 
-function addVoteFunction(){
-    var voteBtns = document.querySelectorAll('.vote button')
+function addVoteFunction(element){
+    var voteBtns = element.querySelectorAll('.vote button')
     voteBtns = [...voteBtns]
     voteBtns.forEach(voteBtn => {
-        voteBtn.removeEventListener('click', voteClick)
-        voteBtn.addEventListener('click', voteClick)
+        voteBtn.addEventListener('click', ()=>{
+          const card = findAncestor(voteBtn, 'card')
+          const user = card.querySelector('.user-name').innerText
+          if (user !== currentUser.username){
+              const score = voteBtn.parentElement.querySelector('.vote-number')
+              console.log (score)
+              if (voteBtn.className == 'plus'){
+                  score.innerText = score.innerText*1 + 1
+              }else{
+                  score.innerText = score.innerText == 0?score.innerText:score.innerText*1 - 1
+              }
+          }
+        })
     })
-}
-
-function voteClick(voteBtn){
-    
-        const card = findAncestor(voteBtn, 'card')
-        const user = card.querySelector('.user-name').innerText
-        if (user !== currentUser.username){
-            const score = voteBtn.parentElement.querySelector('.vote-number')
-            console.log (score)
-            if (voteBtn.className == 'plus'){
-                score.innerText = score.innerText*1 + 1
-            }else{
-                score.innerText = score.innerText == 0?score.innerText:score.innerText*1 - 1
-            }
-        }
-    
 }
 
 function renderDeleteModal (element){
