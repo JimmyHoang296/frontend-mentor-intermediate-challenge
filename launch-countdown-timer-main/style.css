@@ -1,0 +1,67 @@
+:root{
+    --grayish-blue: hsl(237, 18%, 59%);
+    --soft-red: hsl(345, 95%, 68%);
+    --white: hsl(0, 0%, 100%);
+    --dark-blue: hsl(236, 21%, 26%);
+    --very-dark-blue: hsl(235, 16%, 14%);
+    --black-blue: hsl(234, 17%, 12%);
+}
+
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    font-family: 'Red Hat Text', sans-serif;
+}
+
+.wrapper{
+    
+    min-height: 100vh;
+    height: 100%;
+    background: url(./images/pattern-hills.svg) no-repeat -630px bottom, linear-gradient(var(--very-dark-blue), var(--dark-blue));
+    background-size: 300%;
+    /* background-color: var(--black-blue); */
+}
+
+.header{
+
+}
+
+.count-down{
+
+}
+
+.count-down-element{
+
+}
+
+.days{
+
+}
+
+.hours{
+
+}
+
+.minutes{
+
+}
+
+.seconds{
+
+}
+
+.number{
+
+}
+
+.tag{
+
+}
+
+.social{
+
+}
