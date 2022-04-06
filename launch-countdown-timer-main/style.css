@@ -18,26 +18,107 @@ body{
 }
 
 .wrapper{
-    
+    position: relative;
     min-height: 100vh;
     height: 100%;
-    background: url(./images/pattern-hills.svg) no-repeat -630px bottom, linear-gradient(var(--very-dark-blue), var(--dark-blue));
+    background: url(./images/pattern-hills.svg) no-repeat -630px bottom, linear-gradient(#1e1e28, #211b29);
     background-size: 300%;
     /* background-color: var(--black-blue); */
+
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */
+    align-items: center;
+    padding: 140px 25px 40px;
+    text-align: center;
+}
+@media (min-width:700px) {
+    .wrapper{
+        background-size: contain;
+    }
 }
 
 .header{
-
+    max-width: 330px;
+    text-transform: uppercase;
+    color: white;
+    letter-spacing: 6px;
+    font-size: 18px;
+    margin-bottom: 55px;
 }
-
+@media (min-width:700px) {
+    .header{
+        font-size: 22px;
+        margin-bottom: 100px;
+    }
+}
+/* countdown element */
 .count-down{
-
+    max-width: 330px;
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    margin-bottom: 100px;
+    width: 100%;
 }
 
 .count-down-element{
-
 }
 
+.number{
+    width: 70px;
+    text-align: center;
+    margin-bottom: 15px;
+    padding: 10px 0;
+    font-size: 34px;
+    border-radius: 3px;
+    background-color: var(--dark-blue);
+
+    color: var(--soft-red);
+    position: relative;
+
+    box-shadow: var(--black-blue) 0 5px 0px 5px;
+}
+
+.number::before{
+    content: "";
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: var(--black-blue);
+    left: 0;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: var(--black-blue) 70px 0 0 0 ;
+}
+
+.tag{
+    font-size: 7px;
+    color: var(--grayish-blue);
+    letter-spacing: 3px;
+    
+}
+@media (min-width:700px) {
+    .count-down{
+        max-width: 690px;
+    }
+    .number{
+        width: 150px;
+        font-size: 80px;
+        padding: 17px 0;
+        border-radius: 10px;
+        margin-bottom: 25px;
+    }
+    .number::before{
+        width: 10px;
+        height: 10px;
+        box-shadow: var(--black-blue) 150px 0 0 0;
+    }
+    .tag{
+        font-size: 14px;
+    }
+}
 .days{
 
 }
@@ -54,14 +135,27 @@ body{
 
 }
 
-.number{
-
-}
-
-.tag{
-
-}
-
 .social{
+    position:absolute;
+    bottom: 50px;
+    display: flex;
+    gap: 40px;
+}
 
+.social i{
+    color: var(--grayish-blue);
+    font-size: 28px;
+    transition: ease-in-out 0.2s;
+
+}
+
+.social i:hover{
+    color: var(--soft-red);
+    cursor: pointer;
+}
+
+@media (min-width:700px) {
+    .social i{
+        /* font-size: 40px; */
+    }
 }
